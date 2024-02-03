@@ -1,0 +1,21 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- header starts here-->
+
+<div class="container mt-5">
+    <h6 class="text-center">Plagiarism Checker - Submit Text</h6>
+    <form method="post" action="{% url 'base:submit' %}">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_text">Enter Text:</label>
+            <textarea class="form-control" id="id_text" name="text" rows="8" placeholder="Type or paste your text here"></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary mt-3">Submit Text</button>
+    </form>
+</div>
+
+{% endblock %}

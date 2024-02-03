@@ -1,0 +1,115 @@
+
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plagiarism Checker - Results</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh; /* Set a height for the container */
+        }
+
+        .sidebar {
+            width: 20%; /* Adjust the sidebar width as needed */
+            background-color: #ddd;
+            overflow-y: auto; /* Make the sidebar scrollable */
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box; /* Adjust the box model property */
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        p {
+            margin-top: 8px;
+            color: #666;
+        }
+
+        p.no-results {
+            text-align: center;
+            color: #888;
+        }
+
+        .highlight {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="sidebar">
+        <!-- Sidebar content goes here -->
+    </div>
+
+    <div class="content">
+        <h1>Plagiarism Checker - Results</h1>
+
+        {% if search_results %}
+ <!-- results.html -->
+
+{% for result in search_results %}
+<li>
+    <a href="{{ result.result.link }}" target="_blank">{{ result.result.title }}</a>
+    <p>{{ result.result.snippet }}</p>
+    <p>Similarity: {{ result.similarity }}%</p>
+    <p class="card-text">
+        {% with input_text_words=input_text.split %}
+            {% with highlighted_sentence="" %}
+                {% for word in result.result.snippet.split %}
+                    {% if word in input_text_words %}
+                        {% if highlighted_sentence %} {{ word }}{% else %}<span style="background-color: yellow;">{{ word }}</span>{% endif %}
+                    {% else %}
+                        {% if highlighted_sentence %} {{ word }}{% else %}{{ word }}{% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}
+        {% endwith %}
+        {% if highlighted_sentence %}
+            <span style="background-color: yellow;">{{ result.result.snippet }}</span>
+        {% else %}
+            {{ result.result.snippet }}
+        {% endif %}
+    </p>
+</li>
+{% endfor %}
+    </ul>
+        {% else %}
+            <p class="no-results">No search results found for '{{ input_text }}'.</p>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
