@@ -1,0 +1,71 @@
+{% extends 'base2.html' %}
+{% block title %} File Upload Form {% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plagiarism Checker - Submit Image</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <form id="plagiarismForm" method="post" action="{% url 'base:image_search' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <h1 class="text-center mb-4">Plagiarism Checker</h1>
+
+            <div class="form-group">
+                <label for="id_file">Choose an image file:</label>
+                <input type="file" name="file" id="id_file" accept=".jpg, .jpeg, .png, .gif" class="form-control-file">
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="button" onclick="selectFile('.jpg, .jpeg, .png, .gif')" class="btn btn-success btn-block mb-3">Upload Image</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="button" onclick="submitForm('image')" class="btn btn-primary btn-block">Submit Image</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function selectFile(accept) {
+            var fileInput = document.getElementById('id_file');
+            fileInput.accept = accept;
+            fileInput.click();
+        }
+        function submitForm(fileType) {
+            var fileInput = document.getElementById('id_file');
+            fileInput.accept = (fileType === 'image') ? '.jpg, .jpeg, .png, .gif' : '.doc, .docx, .pdf';
+
+            var form = document.getElementById('plagiarismForm');
+            var formData = new FormData(form);
+
+            // Perform AJAX submission or use the form's natural submission
+            // You may want to use a library like fetch or jQuery.ajax for AJAX requests
+
+            // For simplicity, let's use form's natural submission
+            form.submit();
+        }
+    </script>
+
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+{% endblock %}

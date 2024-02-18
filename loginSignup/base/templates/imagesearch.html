@@ -1,0 +1,29 @@
+<!-- base/templates/image_search.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Image Search</title>
+</head>
+<body>
+
+<div>
+    <h1>Upload Image to Search</h1>
+
+    <form method="post" enctype="multipart/form-data" action="{% url 'base:image_search' %}">
+        {% csrf_token %}
+        <input type="file" name="image" accept="image/*" required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if search_results %}
+        <h2>Search Results:</h2>
+        {% for result in search_results %}
+            <img src="{{ result }}" alt="Image Result">
+        {% endfor %}
+    {% endif %}
+</div>
+
+</body>
+</html>

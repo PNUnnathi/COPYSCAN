@@ -1,16 +1,21 @@
-<!-- paraphrased_text.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paraphrased Text</title>
-</head>
-<body>
-    <div>
-        <h1>Paraphrased Text</h1>
-        <p>Original Text: {{ input_text }}</p>
-        <p>Paraphrased Text: {{ paraphrased_text }}</p>
-    </div>
-</body>
-</html>
+{% extends 'base2.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- header starts here-->
+
+<div class="container mt-5">
+    <h6 class="text-center">Plagiarism Checker - Submit Text</h6>
+    <form method="post" action="{% url 'base:paraphrase' %}">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_text">Enter Text:</label>
+            <textarea class="form-control" id="id_text" name="text" rows="8" placeholder="Type or paste your text here"></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary mt-3">Submit Text</button>
+    </form>
+</div>
+
+{% endblock %}
